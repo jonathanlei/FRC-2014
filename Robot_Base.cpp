@@ -47,6 +47,11 @@ public:
 	/**
 	 * Drive left & right motors for 2 seconds then stop
 	 */
+	void RobotInit(void){
+		while (not IsEnabled()){
+			printf("magic init power")
+		}
+	}
 	void Autonomous(void)
 	{
 		if (IsAutonomous() && IsEnabled()) { // Kevin's Kludgy code fixed by Henry 01-11-14
