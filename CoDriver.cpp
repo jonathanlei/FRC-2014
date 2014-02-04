@@ -10,8 +10,8 @@ float coDriver::returnJoystick(int port){
 	return codriverStick.GetRawButton(port);
 }
 
-void coDriver::triggerCheck(Kicker *puckKicker){
+void coDriver::triggerCheck(BigBlueBallShooter *shooter){
 	if(codriverStick.GetRawButton(Trigger)){
-		puckKicker->Shoot();
+		shooter->Shoot();
 	}
 }

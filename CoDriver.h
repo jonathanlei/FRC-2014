@@ -2,7 +2,7 @@
 #define CODRIVER_H_
 
 #include "WPILib.h"
-#include "Pneumatics.h"
+#include "BigBlueBallShooter.h"
 #include "Support.h"
 
 #define codriverStickPort 3
@@ -14,6 +14,6 @@ class coDriver {
 public:
 	coDriver(void);
 	float returnJoystick(int port);
-	void triggerCheck(Kicker *puckKicker);
+	void triggerCheck(BigBlueBallShooter *shooter);
 };
 #endif

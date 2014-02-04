@@ -1,5 +1,5 @@
 #include "WPILib.h"
-#include "Pneumatics.h"
+#include "BigBlueBallShooter.h"
 #include "MainDriver.h"
 #include "CoDriver.h"
 #include "ktkLib.h"
@@ -21,13 +21,13 @@ class Robot_2014 : public SimpleRobot
 	coDriver *Driver2;
 	DriverStationLCD *DsLCD;
 	Task *notificationTask;
-	Kicker *puckKicker;
+	BigBlueBallShooter *shooter;
 public:
 	Robot_2014(void){
 		Driver1 = new mainDriver;
 		Driver2 = new coDriver;
 		terminalOut = new robotOut;
-		puckKicker = new Kicker;
+		shooter = new BigBlueBallShooter;
 		DsLCD = DriverStationLCD::GetInstance();
 	}
 	~Robot_2014(void) {
@@ -67,7 +67,7 @@ public:
 		SmartDashboard::PutBoolean("In Teleop", true);
 		while (IsOperatorControl()){
 			Driver1->teleopDrive();
-			Driver2->triggerCheck(puckKicker);
+			Driver2->triggerCheck(shooter);
 			Wait(0.005);
 		}
 		stopTasks();

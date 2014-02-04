@@ -22,3 +22,29 @@ void robotOut::printDebug(char *output, int message_type){
 		}
 	}
 }
+rangeFinder::rangeFinder(int channel)
+{
+	sonar = new AnalogChannel(channel);
+}
+float rangeFinder::getRangeFt()
+{
+	float range = this->getVoltage();
+	return (range * this->ftFactor);
+}
+float rangeFinder::getRangeIn()
+{
+	float range = this->getVoltage();
+	return (range * this->inFactor);
+}
+float rangeFinder::getVoltage()
+{
+	return this->sonar->GetVoltage();
+}
+float rangeFinder::getInFactor()
+{
+	return this->inFactor;
+}
+float rangeFinder::getFtFactor()
+{
+	return this->ftFactor;
+}
