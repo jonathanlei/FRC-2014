@@ -19,6 +19,8 @@ public:
 	robotDriver(void);
 	void tankDrive(float leftStick, float rightStick);
 	void arcadeDrive(float stickx, float sticky);
+	void Turn(float speed);
+	void Go(float speed);
 	void mecanumDrive(float leftStickx, float leftSticky, float rightStickx, float rightSticky, bool squared);
 };
 #endif

@@ -16,10 +16,13 @@ void mainDriver::arcadeDrive(void){
 void mainDriver::killDrive(void){
 	myRobot.StopMotor();
 }
-void mainDriver::Go(float speed){
-	myRobot.Drive(speed, 0.0);
-}
 */
+void mainDriver::Go(float speed){
+	myRobot.Go(speed);
+}
+void mainDriver::Turn(float speed){
+	myRobot.Turn(speed);
+}
 double mainDriver::Lefty(void){
 	return leftStick.GetY();
 }

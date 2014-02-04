@@ -15,6 +15,18 @@ void robotDriver::tankDrive(float leftStick, float rightStick){
 	frontLeftMotor.Set(leftStick);
 	rearLeftMotor.Set(leftStick);
 }
+void robotDriver::Go(float speed){
+	frontRightMotor.Set(speed);
+	rearRightMotor.Set(speed);
+	frontLeftMotor.Set(-1 * speed);
+	rearLeftMotor.Set(-1 * speed);
+}
+void robotDriver::Turn(float speed){
+	frontRightMotor.Set(speed);
+	rearRightMotor.Set(speed);
+	frontLeftMotor.Set(speed);
+	rearLeftMotor.Set(speed);
+}
 void robotDriver::arcadeDrive(float stickx, float sticky){
 	frontRightMotor.Set(stickx - sticky);
 	rearRightMotor.Set(stickx - sticky);
