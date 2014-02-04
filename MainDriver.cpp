@@ -17,7 +17,7 @@ void mainDriver::killDrive(void){
 	myRobot.StopMotor();
 }
 */
-void mainDriver::Go(float speed){
+void mainDriver::Go(float speed, float angle){
 	myRobot.Go(speed);
 }
 void mainDriver::Turn(float speed){

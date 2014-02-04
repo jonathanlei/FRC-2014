@@ -5,6 +5,10 @@
 #include "ktkLib.h"
 #include "Support.h"
 
+#define PRESSURE_SWITCH_PORT 3
+#define SPIKE_RELAY_PORT 3
+#define FRONT_SONAR_PORT 6
+
 /*
  *	Team 1740
  *	Aerial Assist Code
@@ -22,13 +26,20 @@ class Robot_2014 : public SimpleRobot
 	DriverStationLCD *DsLCD;
 	Task *notificationTask;
 	BigBlueBallShooter *shooter;
+	rangeFinder *rangeFront;
+	Gyro *gyro;
+	Compressor *c;
+	
 public:
 	Robot_2014(void){
 		Driver1 = new mainDriver;
 		Driver2 = new coDriver;
 		terminalOut = new robotOut;
-		shooter = new BigBlueBallShooter;
+		shooter = new BigBlueBallShooter();
 		DsLCD = DriverStationLCD::GetInstance();
+		rangeFront = new rangeFinder(FRONT_SONAR_PORT);
+		gyro = new Gyro(1);
+		c = new Compressor(PRESSURE_SWITCH_PORT, SPIKE_RELAY_PORT);
 	}
 	~Robot_2014(void) {
 		delete DsLCD;
@@ -36,11 +47,52 @@ public:
 		delete Driver2;
 		delete Driver1;
 	}
+	void RobotInit()
+	{
+		printf("Entering RobitInit()!\n");
+		printf("We cannot start the compressor until robot is enabled.\n");
+	}
+	void Disabled()
+	{
+		printf("I'm disabled!\n");
+	}
 	/**
 	 * CRE 01-11-14 Attempting to add test code.
 	 */
 	void Test() {
-		while (IsTest() && IsEnabled()) {
+		while (IsTest() && IsEnabled())
+		{
+			float range;
+			printf("Entering Test()\n");
+			gyro->Reset();
+			
+			while (IsTest() && IsEnabled())
+			{
+				float angle = gyro->GetAngle();
+				printf("Gyro angle = %f\n", angle);
+				range = rangeFront->getRangeFt();
+				printf("RangeFront (ft): %f\n", range);
+				range = rangeFront->getVoltage();
+				printf("RangeFront (v): %f\n", range);
+				range = rangeFront->getFtFactor();
+				printf("FtFactor = %f\n",range);
+				/* 
+				 * 
+				 * Gyro proof-of-concept code 
+				 */ 
+	//			static const float Kp=0.03;
+				if (angle < -45 || angle > 45)
+				{
+	//				Driver1->Go(.1, -angle*Kp); // turn to correct heading
+					shooter->Shoot();
+					printf("Completed shooting cycle\n");
+				}
+				else
+				{
+	//				Driver1->Go(0.0, 0.0);
+				}
+				Wait(.5);			
+			}
 		}
 	}
 	
@@ -49,10 +101,22 @@ public:
 	 */
 	void Autonomous(void)
 	{
+		c->Start();
+		gyro->Reset();
+		float range = rangeFront->getRangeFt();
+
 		if (IsAutonomous() && IsEnabled()) { // Kevin's Kludgy code fixed by Henry 01-11-14
-//			Driver1->Go(1);
-			Wait(2);
-//			Driver1->killDrive();
+			while (range > 6)
+			{
+				Driver1->Go(0.1, 0.0); // Go forward half speed
+				range = rangeFront->getRangeFt();
+			}
+			printf("RangeFront: %f\n", range);
+			// Brake
+			Driver1->Go(-1.0, 0.0);
+			Wait(0.01);
+			Driver1->Go(0.0, 0.0);
+			shooter->Shoot();
 		}
 	}
 	void OperatorControl(void)

@@ -13,7 +13,7 @@ class coDriver {
 	robotOut *coDriverOut;
 public:
 	coDriver(void);
-	float returnJoystick(int port);
-	void triggerCheck(BigBlueBallShooter *shooter);
+	float returnJoystick(int);
+	void triggerCheck(BigBlueBallShooter *);
 };
 #endif

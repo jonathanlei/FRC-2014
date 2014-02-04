@@ -17,12 +17,12 @@ class mainDriver {
 	Joystick rightStick; // right joystick
 public:
 	mainDriver(void);
-	void Go(float);
+	void Go(float, float);
 	void Turn(float);
 	void teleopDrive(void);
 //	void arcadeDrive(void);
 //	void disableSafety(void);
-	void killDrive(void);
+//	void killDrive(void);
 	double Lefty(void);
 	double Righty(void);
 	double Leftx(void);

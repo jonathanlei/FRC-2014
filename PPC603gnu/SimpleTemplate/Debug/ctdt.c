@@ -13,6 +13,8 @@ void _GLOBAL__I__ZN10mainDriverC2Ev();
 
 void _GLOBAL__I__ZN11robotDriverC2Ev();
 
+void _GLOBAL__I__ZN18BigBlueBallShooterC2Ev();
+
 void _GLOBAL__I__ZN6KickerC2Ev();
 
 void _GLOBAL__I__ZN8coDriverC2Ev();
@@ -77,6 +79,7 @@ void (*_ctors[])() =
     _GLOBAL__I__Z20FRC_userClassFactoryv,
     _GLOBAL__I__ZN10mainDriverC2Ev,
     _GLOBAL__I__ZN11robotDriverC2Ev,
+    _GLOBAL__I__ZN18BigBlueBallShooterC2Ev,
     _GLOBAL__I__ZN6KickerC2Ev,
     _GLOBAL__I__ZN8coDriverC2Ev,
     _GLOBAL__I__ZN8robotOut10printDebugEPci,
@@ -114,6 +117,8 @@ void _GLOBAL__D__Z20FRC_userClassFactoryv();
 void _GLOBAL__D__ZN10mainDriverC2Ev();
 
 void _GLOBAL__D__ZN11robotDriverC2Ev();
+
+void _GLOBAL__D__ZN18BigBlueBallShooterC2Ev();
 
 void _GLOBAL__D__ZN6KickerC2Ev();
 
@@ -169,6 +174,7 @@ void (*_dtors[])() =
     _GLOBAL__D__Z20FRC_userClassFactoryv,
     _GLOBAL__D__ZN10mainDriverC2Ev,
     _GLOBAL__D__ZN11robotDriverC2Ev,
+    _GLOBAL__D__ZN18BigBlueBallShooterC2Ev,
     _GLOBAL__D__ZN6KickerC2Ev,
     _GLOBAL__D__ZN8coDriverC2Ev,
     _GLOBAL__D__ZN8robotOut10printDebugEPci,
