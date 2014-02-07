@@ -20,32 +20,32 @@
  */
 class Robot_2014 : public SimpleRobot
 {
-	mainDriver *Driver1;
+	mainDriver *driver1;
 	robotOut *terminalOut;
-	coDriver *Driver2;
+	coDriver *driver2;
 	DriverStationLCD *DsLCD;
 	Task *notificationTask;
 	BigBlueBallShooter *shooter;
 	rangeFinder *rangeFront;
 	Gyro *gyro;
-	Compressor *c;
+	Compressor *compressor;
 	
 public:
 	Robot_2014(void){
-		Driver1 = new mainDriver;
-		Driver2 = new coDriver;
+		driver1 = new mainDriver;
+		driver2 = new coDriver;
 		terminalOut = new robotOut;
 		shooter = new BigBlueBallShooter();
 		DsLCD = DriverStationLCD::GetInstance();
 		rangeFront = new rangeFinder(FRONT_SONAR_PORT);
 		gyro = new Gyro(1);
-		c = new Compressor(PRESSURE_SWITCH_PORT, SPIKE_RELAY_PORT);
+		compressor = new Compressor(PRESSURE_SWITCH_PORT, SPIKE_RELAY_PORT);
 	}
 	~Robot_2014(void) {
 		delete DsLCD;
 		delete terminalOut;
-		delete Driver2;
-		delete Driver1;
+		delete driver2;
+		delete driver1;
 	}
 	void RobotInit()
 	{
@@ -83,13 +83,13 @@ public:
 	//			static const float Kp=0.03;
 				if (angle < -45 || angle > 45)
 				{
-	//				Driver1->Go(.1, -angle*Kp); // turn to correct heading
+	//				driver1->Go(.1, -angle*Kp); // turn to correct heading
 					shooter->Shoot();
 					printf("Completed shooting cycle\n");
 				}
 				else
 				{
-	//				Driver1->Go(0.0, 0.0);
+	//				driver1->Go(0.0, 0.0);
 				}
 				Wait(.5);			
 			}
@@ -101,21 +101,21 @@ public:
 	 */
 	void Autonomous(void)
 	{
-		c->Start();
+		compressor->Start();
 		gyro->Reset();
 		float range = rangeFront->getRangeFt();
 
 		if (IsAutonomous() && IsEnabled()) { // Kevin's Kludgy code fixed by Henry 01-11-14
 			while (range > 6)
 			{
-				Driver1->Go(0.1, 0.0); // Go forward half speed
+				driver1->Go(0.1, 0.0); // Go forward half speed
 				range = rangeFront->getRangeFt();
 			}
 			printf("RangeFront: %f\n", range);
 			// Brake
-			Driver1->Go(-1.0, 0.0);
+			driver1->Go(-1.0, 0.0);
 			Wait(0.01);
-			Driver1->Go(0.0, 0.0);
+			driver1->Go(0.0, 0.0);
 			shooter->Shoot();
 		}
 	}
@@ -126,12 +126,12 @@ public:
 		terminalOut->printDebug("starting Teleop\n", 1);
 		DsLCD->PrintfLine(DsLCD->kUser_Line1, "Entering Teleop mode");
 		DsLCD->UpdateLCD();
-//		Driver1->disableSafety();
+//		driver1->disableSafety();
 		terminalOut->printDebug("Teleop initalziation completed\n", 2);
 		SmartDashboard::PutBoolean("In Teleop", true);
 		while (IsOperatorControl()){
-			Driver1->teleopDrive();
-			Driver2->triggerCheck(shooter);
+			driver1->teleopDrive();
+			driver2->triggerCheck(shooter);
 			Wait(0.005);
 		}
 		stopTasks();
@@ -145,27 +145,27 @@ public:
 					bool buttonValue; // create a bool that we will feed the current value of the button in to
 					// next we check what joystick we are on and feed that value into buttonValue
 					if (differentJoysticks == 1){ 
-						buttonValue = robot->Driver1->returnLeftJoystick(count);
+						buttonValue = robot->driver1->returnLeftJoystick(count);
 					}
 					if (differentJoysticks == 2){
-						buttonValue = robot->Driver1->returnRightJoystick(count);
+						buttonValue = robot->driver1->returnRightJoystick(count);
 					}
 					if (differentJoysticks == 3){
-						buttonValue = robot->Driver2->returnJoystick(count);
+						buttonValue = robot->driver2->returnJoystick(count);
 					}
 					sprintf(location, "%d_%d", differentJoysticks, count); // make a "joystick#_button#" string to appease brians dashboard
 					SmartDashboard::PutBoolean(location, buttonValue); // put the finished value on the dashboard
 				}
 			}
 			// the following lines cannot be put on the dashboard by my loop, so i threw them here
-			SmartDashboard::PutNumber("Y-Axis1", robot->Driver1->Lefty());
-			SmartDashboard::PutNumber("X-Axis1", robot->Driver1->Leftx());
-			SmartDashboard::PutNumber("Y-Axis2", robot->Driver1->Righty());
-			SmartDashboard::PutNumber("X-Axis2", robot->Driver1->Rightx());
-			SmartDashboard::PutNumber("Right Drive Motor", robot->Driver1->Lefty());
-			SmartDashboard::PutNumber("Left Drive Motor", robot->Driver1->Righty());
-			SmartDashboard::PutNumber("Throttle2", robot->Driver1->rightThrottle());
-			SmartDashboard::PutNumber("Throttle1", robot->Driver1->leftThrottle());
+			SmartDashboard::PutNumber("Y-Axis1", robot->driver1->Lefty());
+			SmartDashboard::PutNumber("X-Axis1", robot->driver1->Leftx());
+			SmartDashboard::PutNumber("Y-Axis2", robot->driver1->Righty());
+			SmartDashboard::PutNumber("X-Axis2", robot->driver1->Rightx());
+			SmartDashboard::PutNumber("Right Drive Motor", robot->driver1->Lefty());
+			SmartDashboard::PutNumber("Left Drive Motor", robot->driver1->Righty());
+			SmartDashboard::PutNumber("Throttle2", robot->driver1->rightThrottle());
+			SmartDashboard::PutNumber("Throttle1", robot->driver1->leftThrottle());
 			Wait(.02);  // lets not starve the crio doing tasks
 		}
 		return 0;
