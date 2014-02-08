@@ -27,7 +27,7 @@ class Robot_2014 : public SimpleRobot
 	Task *notificationTask;
 	BigBlueBallShooter *shooter;
 	rangeFinder *rangeFront;
-	Gyro *gyro;
+//	Gyro *gyro;
 	Compressor *compressor;
 	
 public:
@@ -38,7 +38,7 @@ public:
 		shooter = new BigBlueBallShooter();
 		DsLCD = DriverStationLCD::GetInstance();
 		rangeFront = new rangeFinder(FRONT_SONAR_PORT);
-		gyro = new Gyro(1);
+//		gyro = new Gyro(1);
 		compressor = new Compressor(PRESSURE_SWITCH_PORT, SPIKE_RELAY_PORT);
 //		compressor->Start();
 	}
@@ -48,7 +48,7 @@ public:
 		delete driver2;
 		delete driver1;
 		delete shooter;
-		delete gyro;
+//		delete gyro;
 		delete compressor;
 		delete rangeFront;
 	}
@@ -70,12 +70,12 @@ public:
 		{
 			float range;
 			printf("Entering Test()\n");
-			gyro->Reset();
+//			gyro->Reset();
 			
 			while (IsTest() && IsEnabled())
 			{
-				float angle = gyro->GetAngle();
-				printf("Gyro angle = %f\n", angle);
+//				float angle = gyro->GetAngle();
+//				printf("Gyro angle = %f\n", angle);
 				range = rangeFront->getRangeFt();
 				printf("RangeFront (ft): %f\n", range);
 				range = rangeFront->getVoltage();
@@ -87,7 +87,7 @@ public:
 				 * Gyro proof-of-concept code 
 				 */ 
 	//			static const float Kp=0.03;
-				if (angle < -45 || angle > 45)
+/*				if (angle < -45 || angle > 45)
 				{
 	//				driver1->Go(.1, -angle*Kp); // turn to correct heading
 					shooter->Shoot();
@@ -97,6 +97,7 @@ public:
 				{
 	//				driver1->Go(0.0, 0.0);
 				}
+				*/
 				Wait(.5);			
 			}
 		}
@@ -107,13 +108,13 @@ public:
 	 */
 	void Autonomous(void)
 	{
-		gyro->Reset();
+//		gyro->Reset();
 		float range = rangeFront->getRangeFt();
 
 		if (IsAutonomous() && IsEnabled()) { // Kevin's Kludgy code fixed by Henry 01-11-14
-			while (range > 6)
+			while (range > 4)
 			{
-				driver1->Go(0.1, 0.0); // Go forward half speed
+				driver1->Go(0.5, 0.0); // Go forward half speed
 				range = rangeFront->getRangeFt();
 			}
 			printf("RangeFront: %f\n", range);

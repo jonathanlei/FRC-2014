@@ -16,10 +16,10 @@ void robotDriver::tankDrive(float leftStick, float rightStick){
 	rearLeftMotor.Set(leftStick);
 }
 void robotDriver::Go(float speed){
-	frontRightMotor.Set(speed);
-	rearRightMotor.Set(speed);
-	frontLeftMotor.Set(-1 * speed);
-	rearLeftMotor.Set(-1 * speed);
+	frontRightMotor.Set(-1 * speed);
+	rearRightMotor.Set(-1 * speed);
+	frontLeftMotor.Set(speed);
+	rearLeftMotor.Set(speed);
 }
 void robotDriver::Turn(float speed){
 	frontRightMotor.Set(speed);
@@ -60,15 +60,15 @@ void robotDriver::mecanumDrive(float leftStickx, float leftSticky, float rightSt
 		else {
 			leftStickx = pow(leftStickx, 2);
 		}
-		frontRightMotor.Set(-1 * (rightSticky + rightStickx));
-		rearRightMotor.Set(-1 * (rightSticky - rightStickx));
-		frontLeftMotor.Set(leftSticky - leftStickx);
-		rearLeftMotor.Set(leftSticky + leftStickx);
+		frontRightMotor.Set(rightSticky + rightStickx);
+		rearRightMotor.Set(rightSticky - rightStickx);
+		frontLeftMotor.Set(-1 * (leftSticky - leftStickx));
+		rearLeftMotor.Set(-1 * (leftSticky + leftStickx));
 	}
 	else {
-		frontRightMotor.Set(-1 * (rightSticky + rightStickx));
-		rearRightMotor.Set(-1 * (rightSticky - rightStickx));
-		frontLeftMotor.Set(leftSticky - leftStickx);
-		rearLeftMotor.Set(leftSticky + leftStickx);
+		frontRightMotor.Set(rightSticky + rightStickx);
+		rearRightMotor.Set(rightSticky - rightStickx);
+		frontLeftMotor.Set(-1 * (leftSticky - leftStickx));
+		rearLeftMotor.Set(-1 * (leftSticky + leftStickx));
 	}
 }
