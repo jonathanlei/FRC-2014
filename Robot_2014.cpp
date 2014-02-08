@@ -40,17 +40,23 @@ public:
 		rangeFront = new rangeFinder(FRONT_SONAR_PORT);
 		gyro = new Gyro(1);
 		compressor = new Compressor(PRESSURE_SWITCH_PORT, SPIKE_RELAY_PORT);
+//		compressor->Start();
 	}
 	~Robot_2014(void) {
 		delete DsLCD;
 		delete terminalOut;
 		delete driver2;
 		delete driver1;
+		delete shooter;
+		delete gyro;
+		delete compressor;
+		delete rangeFront;
 	}
 	void RobotInit()
 	{
 		printf("Entering RobitInit()!\n");
 		printf("We cannot start the compressor until robot is enabled.\n");
+		compressor->Start();
 	}
 	void Disabled()
 	{
@@ -101,7 +107,6 @@ public:
 	 */
 	void Autonomous(void)
 	{
-		compressor->Start();
 		gyro->Reset();
 		float range = rangeFront->getRangeFt();
 
@@ -171,10 +176,12 @@ public:
 		return 0;
 	}
 	void startTasks(void){
+		/*
 		char name[30];
 		sprintf(name, "notificationThread-%ld", GetFPGATime());
 		notificationTask = new Task(name, (FUNCPTR)this->notifierTask);
 		notificationTask->Start((INT32)this);	
+		*/
 	}
 	void stopTasks(void){
 		notificationTask->Stop();
