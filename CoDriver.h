@@ -7,6 +7,8 @@
 
 #define codriverStickPort 3
 #define Trigger 1
+#define ForkUp 2
+#define ForkDn 3
 
 class coDriver {
 	Joystick codriverStick; // stick for the co-driver
@@ -15,5 +17,6 @@ public:
 	coDriver(void);
 	float returnJoystick(int);
 	void triggerCheck(BigBlueBallShooter *);
+	void forkCheck(ForkLift *);
 };
 #endif

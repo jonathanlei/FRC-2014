@@ -6,20 +6,20 @@ BigBlueBallShooter::BigBlueBallShooter(void):
 	winderLimit(WINDER_LIMIT_PORT)
 {
 	this->pSolenoid1 = new Solenoid(CYLINDER_PORT1); // connect solenoid to proper channel on pneumatics card
-	this->pSolenoid2 = new Solenoid(CYLINDER_PORT2); // connect solenoid to proper channel on pneumatics card
+//	this->pSolenoid2 = new Solenoid(CYLINDER_PORT2); // connect solenoid to proper channel on pneumatics card
 	this->Release();
 	this->winderMotor.Set(0);
 }
 void BigBlueBallShooter::Release()
 {
 	this->pSolenoid1->Set(false);
-	this->pSolenoid2->Set(true);
+//	this->pSolenoid2->Set(true);
 }
 
 void BigBlueBallShooter::Engage()
 {
 	this->pSolenoid1->Set(true);
-	this->pSolenoid2->Set(false);
+//	this->pSolenoid2->Set(false);
 }
 
 void BigBlueBallShooter::Shoot()
@@ -42,4 +42,26 @@ void BigBlueBallShooter::Shoot()
 	winderMotor.Set(0.0);
 }
 
+ForkLift::ForkLift(void):
+	lifterMotor(LIFTER_MOTOR_PORT),
+	upperLimit(FORK_UPPER_LIMIT_PORT),
+	lowerLimit(FORK_UPPER_LIMIT_PORT)
+{
+}
+void ForkLift::raise()
+{
+	while(this->upperLimit.Get() == 0)
+	{
+		this->lifterMotor.Set(.1);
+	}
+	this->lifterMotor.Set(0);
+}
+void ForkLift::lower()
+{
+	while(this->lowerLimit.Get() == 0)
+	{
+		this->lifterMotor.Set(-.1);
+	}
+	this->lifterMotor.Set(0);
+}
 

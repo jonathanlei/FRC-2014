@@ -15,3 +15,15 @@ void coDriver::triggerCheck(BigBlueBallShooter *shooter){
 		shooter->Shoot();
 	}
 }
+
+void coDriver::forkCheck(ForkLift *fork)
+{
+	if(codriverStick.GetRawButton(ForkUp))
+	{
+		fork->raise();
+	}
+	else if (codriverStick.GetRawButton(ForkDn))
+	{
+		fork->lower();
+	}
+}
