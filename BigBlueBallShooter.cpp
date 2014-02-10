@@ -21,7 +21,18 @@ void BigBlueBallShooter::Engage()
 	this->pSolenoid1->Set(true);
 //	this->pSolenoid2->Set(false);
 }
-
+void BigBlueBallShooter::Wind(){
+	this->Engage();
+	winderMotor.Set(1.0);
+}
+void BigBlueBallShooter::Kick(){
+	winderMotor.Set(-1.0);
+	Wait(.05);
+	this->stopWind();
+}
+void BigBlueBallShooter::stopWind(){
+	winderMotor.Set(0);
+}
 void BigBlueBallShooter::Shoot()
 {
 	// Engage winder gear
@@ -30,18 +41,17 @@ void BigBlueBallShooter::Shoot()
 	while (winderLimit.Get() == 0)
 	{
 		// wind
-		winderMotor.Set(1.0);
+		this->Wind();
 		Wait(.01);
 	}
-	// disengage winder gear to shoot
-	this->Release();
-	// Reverse motor briefly to jar the cylinder loose and allow spring to retract
-	winderMotor.Set(-1.0);
-	Wait(.05);
-	// stop_winder
-	winderMotor.Set(0.0);
+	this->Fire();
 }
-
+void BigBlueBallShooter::Fire(){
+		// disengage winder gear to shoot
+		this->Release();
+		// Reverse motor briefly to jar the cylinder loose and allow spring to retract
+		this->Kick();
+}
 ForkLift::ForkLift(void):
 	lifterMotor(LIFTER_MOTOR_PORT),
 	upperLimit(FORK_UPPER_LIMIT_PORT),
@@ -50,18 +60,24 @@ ForkLift::ForkLift(void):
 }
 void ForkLift::raise()
 {
-	while(this->upperLimit.Get() == 0)
+	if (this->upperLimit.Get() == 0)
 	{
-		this->lifterMotor.Set(.1);
+		this->lifterMotor.Set(-.5);
 	}
-	this->lifterMotor.Set(0);
+	else{
+		this->lifterMotor.Set(0);
+	}
 }
 void ForkLift::lower()
 {
-	while(this->lowerLimit.Get() == 0)
+	if (this->lowerLimit.Get() == 0)
 	{
-		this->lifterMotor.Set(-.1);
+		this->lifterMotor.Set(.1);
 	}
+	else{
+		this->lifterMotor.Set(0);
+	}
+}
+void ForkLift::stop(){
 	this->lifterMotor.Set(0);
 }
-

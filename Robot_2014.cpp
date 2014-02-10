@@ -24,11 +24,12 @@ class Robot_2014 : public SimpleRobot
 	robotOut *terminalOut;
 	coDriver *driver2;
 	DriverStationLCD *DsLCD;
-	Task *notificationTask;
+	Task *coDriveTask;
 	BigBlueBallShooter *shooter;
 	rangeFinder *rangeFront;
 //	Gyro *gyro;
 	Compressor *compressor;
+	ForkLift *fork;
 	
 public:
 	Robot_2014(void){
@@ -41,6 +42,8 @@ public:
 //		gyro = new Gyro(1);
 		compressor = new Compressor(PRESSURE_SWITCH_PORT, SPIKE_RELAY_PORT);
 //		compressor->Start();
+		fork = new ForkLift;
+		
 	}
 	~Robot_2014(void) {
 		delete DsLCD;
@@ -51,6 +54,7 @@ public:
 //		delete gyro;
 		delete compressor;
 		delete rangeFront;
+		delete fork;
 	}
 	void RobotInit()
 	{
@@ -137,7 +141,6 @@ public:
 		SmartDashboard::PutBoolean("In Teleop", true);
 		while (IsOperatorControl()){
 			driver1->teleopDrive();
-			driver2->triggerCheck(shooter);
 			Wait(0.005);
 		}
 		stopTasks();
@@ -176,16 +179,23 @@ public:
 		}
 		return 0;
 	}
+	static int coDriverTask(Robot_2014 *robot){
+		while (true){
+			robot->driver2->forkCheck(robot->fork);
+			robot->driver2->triggerCheck(robot->shooter);
+			robot->driver2->winderCheck(robot->shooter);
+			Wait(.01);
+		}
+		return 0;
+	}
 	void startTasks(void){
-		/*
 		char name[30];
-		sprintf(name, "notificationThread-%ld", GetFPGATime());
-		notificationTask = new Task(name, (FUNCPTR)this->notifierTask);
-		notificationTask->Start((INT32)this);	
-		*/
+		sprintf(name, "coDriverThread-%ld", GetFPGATime());
+		coDriveTask = new Task(name, (FUNCPTR)this->coDriverTask);
+		coDriveTask->Start((INT32)this);	
 	}
 	void stopTasks(void){
-		notificationTask->Stop();
+		coDriveTask->Stop();
 	}
 };
 

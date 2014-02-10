@@ -6,9 +6,10 @@
 #include "Support.h"
 
 #define codriverStickPort 3
-#define Trigger 1
+#define Trigger 10
 #define ForkUp 2
 #define ForkDn 3
+#define windBtn 9
 
 class coDriver {
 	Joystick codriverStick; // stick for the co-driver
@@ -18,5 +19,6 @@ public:
 	float returnJoystick(int);
 	void triggerCheck(BigBlueBallShooter *);
 	void forkCheck(ForkLift *);
+	void winderCheck(BigBlueBallShooter *);
 };
 #endif

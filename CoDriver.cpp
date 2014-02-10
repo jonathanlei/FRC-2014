@@ -26,4 +26,16 @@ void coDriver::forkCheck(ForkLift *fork)
 	{
 		fork->lower();
 	}
+	else{
+		fork->stop();
+	}
+}
+void coDriver::winderCheck(BigBlueBallShooter *winder){
+	if(codriverStick.GetRawButton(windBtn))
+	{
+		winder->Wind();
+	}
+	else{
+		winder->stopWind();
+	}
 }

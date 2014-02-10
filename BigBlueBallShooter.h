@@ -26,13 +26,16 @@ class BigBlueBallShooter
 public:
 	BigBlueBallShooter();
 	void Shoot();
+	void Wind();
+	void stopWind();
+	void Kick();
+	void Fire();
 	
 private:
 	Solenoid* pSolenoid1;
 //	Solenoid* pSolenoid2;  // Testbed has double solenoid, AerialPanic has 1x
 	void Release();
 	void Engage();
-	void Wind();
 };
 
 class ForkLift
@@ -45,5 +48,6 @@ public:
 	ForkLift();
 	void raise();
 	void lower();
+	void stop();
 };
 #endif
