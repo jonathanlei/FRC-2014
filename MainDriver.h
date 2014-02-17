@@ -10,11 +10,21 @@
 // these are the ports for the joysticks on the PC
 #define rightStickPort 2
 #define leftStickPort 1
+#define GAMEPADPORT 3
+
+// Driver Controller Mode
+#define JOYSTICK_TANK 0
+#define JOYSTICK_MECANUM 1
+#define XBOX_TANK 2
+#define XBOX_ARCADE 3
+#define XBOX_MECANUM 4
 
 class mainDriver {
 	robotDriver myRobot; // robot drive system
 	Joystick leftStick; // left joystick
 	Joystick rightStick; // right joystick
+	Joystick gamePad; // Where "1" is the index of the joystick (you can set this in the Driver Station software).
+	int driveMode;
 public:
 	mainDriver(void);
 	void Go(float, float);

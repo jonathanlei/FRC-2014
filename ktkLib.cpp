@@ -9,11 +9,22 @@ rearRightMotor(rearRightDrivePort),
 rearLeftMotor(rearLeftDrivePort)
 {
 }
-void robotDriver::tankDrive(float leftStick, float rightStick){
+void robotDriver::tankDrive(float leftStick, float rightStick, bool squared){
+
+	if (squared) {
+		int rsign=1, lsign=1;
+		if (leftStick < 0)
+			lsign*=-1;
+		if (rightStick < 0)
+			rsign*=-1;
+		
+		rightStick = rsign * pow(rightStick, 2);
+		leftStick = lsign * pow(leftStick, 2);
+	}
 	frontRightMotor.Set(rightStick);
 	rearRightMotor.Set(rightStick);
-	frontLeftMotor.Set(leftStick);
-	rearLeftMotor.Set(leftStick);
+	frontLeftMotor.Set(-leftStick);
+	rearLeftMotor.Set(-leftStick);
 }
 void robotDriver::Go(float speed){
 	frontRightMotor.Set(-1 * speed);

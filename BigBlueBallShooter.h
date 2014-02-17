@@ -43,11 +43,14 @@ class ForkLift
 	Victor lifterMotor;
 	DigitalInput upperLimit;
 	DigitalInput lowerLimit;
+	bool raiseMode; 			// Forklift mode: Raise/Manual
 	
 public:
 	ForkLift();
 	void raise();
 	void lower();
 	void stop();
+	void setMode(bool); // Set fork mode: Raising
+	bool getMode();
 };
 #endif

@@ -4,20 +4,20 @@
 #include "WPILib.h"
 #include "Support.h"
 
-#define frontRightDrivePort 2
-#define rearRightDrivePort 4
 #define frontLeftDrivePort 1
+#define frontRightDrivePort 2
 #define rearLeftDrivePort 3
+#define rearRightDrivePort 4
 
 class robotDriver {
-	Victor frontRightMotor;
-	Victor frontLeftMotor;
-	Victor rearRightMotor;
-	Victor rearLeftMotor;
+	Jaguar frontRightMotor; // Testbed uses Victors, Aerial Panic uses Jaguars
+	Jaguar frontLeftMotor;
+	Jaguar rearRightMotor;
+	Jaguar rearLeftMotor;
 
 public:
 	robotDriver(void);
-	void tankDrive(float leftStick, float rightStick);
+	void tankDrive(float leftStick, float rightStick, bool squared);
 	void arcadeDrive(float stickx, float sticky);
 	void Turn(float speed);
 	void Go(float speed);

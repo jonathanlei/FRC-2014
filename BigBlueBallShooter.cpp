@@ -55,29 +55,41 @@ void BigBlueBallShooter::Fire(){
 ForkLift::ForkLift(void):
 	lifterMotor(LIFTER_MOTOR_PORT),
 	upperLimit(FORK_UPPER_LIMIT_PORT),
-	lowerLimit(FORK_UPPER_LIMIT_PORT)
+	lowerLimit(FORK_LOWER_LIMIT_PORT)
 {
+	this->setMode(false);
 }
 void ForkLift::raise()
 {
-	if (this->upperLimit.Get() == 0)
-	{
-		this->lifterMotor.Set(-.5);
+	if (this->upperLimit.Get() == 0) {
+		this->lifterMotor.Set(-.1);
+		this->setMode(true);		
 	}
-	else{
+	else {
 		this->lifterMotor.Set(0);
+		this->setMode(false);
 	}
 }
 void ForkLift::lower()
 {
-	if (this->lowerLimit.Get() == 0)
-	{
+	if (this->lowerLimit.Get() == 0) {
+		printf("Lowering fork!\n");
 		this->lifterMotor.Set(.1);
 	}
 	else{
 		this->lifterMotor.Set(0);
 	}
+	this->setMode(false);
 }
 void ForkLift::stop(){
 	this->lifterMotor.Set(0);
+	this->setMode(false);
+}
+
+void ForkLift::setMode(bool mode) {
+	this->raiseMode = mode;
+}
+
+bool ForkLift::getMode() {
+	return this->raiseMode;
 }

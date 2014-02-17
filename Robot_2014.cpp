@@ -116,7 +116,7 @@ public:
 		float range = rangeFront->getRangeFt();
 
 		if (IsAutonomous() && IsEnabled()) { // Kevin's Kludgy code fixed by Henry 01-11-14
-			while (range > 4)
+			while (range > 2.5)
 			{
 				driver1->Go(0.5, 0.0); // Go forward half speed
 				range = rangeFront->getRangeFt();
@@ -131,14 +131,16 @@ public:
 	}
 	void OperatorControl(void)
 	{
+		
 		Wait(.5); //let teleop finish before we start teleop
+		printf("Entering Teleop!\n");
 		startTasks();
 		terminalOut->printDebug("starting Teleop\n", 1);
 		DsLCD->PrintfLine(DsLCD->kUser_Line1, "Entering Teleop mode");
 		DsLCD->UpdateLCD();
 //		driver1->disableSafety();
 		terminalOut->printDebug("Teleop initalziation completed\n", 2);
-		SmartDashboard::PutBoolean("In Teleop", true);
+//		SmartDashboard::PutBoolean("In Teleop", true);
 		while (IsOperatorControl()){
 			driver1->teleopDrive();
 			Wait(0.005);
@@ -163,9 +165,10 @@ public:
 						buttonValue = robot->driver2->returnJoystick(count);
 					}
 					sprintf(location, "%d_%d", differentJoysticks, count); // make a "joystick#_button#" string to appease brians dashboard
-					SmartDashboard::PutBoolean(location, buttonValue); // put the finished value on the dashboard
+//					SmartDashboard::PutBoolean(location, buttonValue); // put the finished value on the dashboard
 				}
 			}
+			/*
 			// the following lines cannot be put on the dashboard by my loop, so i threw them here
 			SmartDashboard::PutNumber("Y-Axis1", robot->driver1->Lefty());
 			SmartDashboard::PutNumber("X-Axis1", robot->driver1->Leftx());
@@ -175,6 +178,7 @@ public:
 			SmartDashboard::PutNumber("Left Drive Motor", robot->driver1->Righty());
 			SmartDashboard::PutNumber("Throttle2", robot->driver1->rightThrottle());
 			SmartDashboard::PutNumber("Throttle1", robot->driver1->leftThrottle());
+			*/
 			Wait(.02);  // lets not starve the crio doing tasks
 		}
 		return 0;
