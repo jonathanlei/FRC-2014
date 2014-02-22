@@ -18,8 +18,7 @@ void coDriver::triggerCheck(BigBlueBallShooter *shooter){
 
 void coDriver::forkCheck(ForkLift *fork)
 {
-	
-	if(codriverStick.GetRawButton(ForkUp) && fork->getMode() != true)
+	if(codriverStick.GetRawButton(ForkUp) && fork->getMode() != LOWER)
 	{
 		fork->raise();
 	}
@@ -27,21 +26,27 @@ void coDriver::forkCheck(ForkLift *fork)
 	{
 		fork->lower();
 	}
+	else if (!codriverStick.GetRawButton(ForkDown) && fork->getMode != RAISE)
+	{
+		fork->stop();
+	}
 /*	
 	else {
 		fork->stop();
 		fork->setMode(false);
 	}
 */
-	if (fork-> getMode() == 0) {
+	if (fork->getMode() == STOP) {
 		fork->stop();
 	}
-	else if (fork->getMode() == 1) {
+	else if (fork->getMode() == RAISE) {
 		fork->raise();
 	}
-	else if (fork->getMode() == 2) {
+	/*
+	else if (fork->getMode() == LOWER) {
 		fork->lower();
 	}
+	*/
 }
 void coDriver::winderCheck(BigBlueBallShooter *winder){
 	if(codriverStick.GetRawButton(windBtn))
