@@ -26,7 +26,7 @@ void coDriver::forkCheck(ForkLift *fork)
 	{
 		fork->lower();
 	}
-	else if (!codriverStick.GetRawButton(ForkDown) && fork->getMode != RAISE)
+	else if (!codriverStick.GetRawButton(ForkDn) && fork->getMode() != RAISE)
 	{
 		fork->stop();
 	}
