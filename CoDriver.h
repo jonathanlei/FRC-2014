@@ -14,6 +14,7 @@
 #define STOP 0
 #define RAISE 1
 #define LOWER 2
+
 class coDriver {
 	Joystick codriverStick; // stick for the co-driver
 	robotOut *coDriverOut;
