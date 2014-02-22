@@ -63,11 +63,11 @@ void ForkLift::raise()
 {
 	if (this->upperLimit.Get() == 0) {
 		this->lifterMotor.Set(-.1);
-		this->setMode(true);		
+		this->setMode(1);		
 	}
 	else {
 		this->lifterMotor.Set(0);
-		this->setMode(false);
+		this->setMode(0);
 	}
 }
 void ForkLift::lower()
@@ -75,21 +75,22 @@ void ForkLift::lower()
 	if (this->lowerLimit.Get() == 0) {
 		printf("Lowering fork!\n");
 		this->lifterMotor.Set(.1);
+		this->setMode(2);
 	}
 	else{
 		this->lifterMotor.Set(0);
+		this->setMode(0);
 	}
-	this->setMode(false);
 }
 void ForkLift::stop(){
 	this->lifterMotor.Set(0);
-	this->setMode(false);
+	this->setMode(0);
 }
 
-void ForkLift::setMode(bool mode) {
+void ForkLift::setMode(int mode) {
 	this->raiseMode = mode;
 }
 
-bool ForkLift::getMode() {
+int ForkLift::getMode() {
 	return this->raiseMode;
 }

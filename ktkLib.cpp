@@ -46,7 +46,7 @@ void robotDriver::arcadeDrive(float stickx, float sticky){
 }
 void robotDriver::mecanumDrive(float leftStickx, float leftSticky, float rightStickx, float rightSticky, bool squared){
 	if (squared){
-		// If we want to square the inputs, we have to make sure to preserve the sign, because otherwise its impossible to drive backwords (all axies would be zero or positive)
+		// If we want to square the inputs, we have to make sure to preserve the sign, because otherwise its impossible to drive backwards (all axies would be zero or positive)
 		if (rightSticky < 0){
 				rightSticky = -pow(rightSticky, 2);
 		}

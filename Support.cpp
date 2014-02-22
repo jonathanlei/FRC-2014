@@ -38,7 +38,9 @@ float rangeFinder::getRangeIn()
 }
 float rangeFinder::getVoltage()
 {
-	return this->sonar->GetVoltage();
+	this->sonar->SetAverageBits(2);
+	float rangeAvg = this->sonar->GetAverageVoltage();
+	return rangeAvg;
 }
 float rangeFinder::getInFactor()
 {

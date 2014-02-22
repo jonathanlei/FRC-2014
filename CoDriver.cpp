@@ -33,8 +33,14 @@ void coDriver::forkCheck(ForkLift *fork)
 		fork->setMode(false);
 	}
 */
-	if (fork->getMode() == true) {
+	if (fork-> getMode() == 0) {
+		fork->stop();
+	}
+	else if (fork->getMode() == 1) {
 		fork->raise();
+	}
+	else if (fork->getMode() == 2) {
+		fork->lower();
 	}
 }
 void coDriver::winderCheck(BigBlueBallShooter *winder){
