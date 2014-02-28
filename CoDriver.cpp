@@ -11,45 +11,36 @@ float coDriver::returnJoystick(int port){
 }
 
 void coDriver::triggerCheck(BigBlueBallShooter *shooter){
-	if(codriverStick.GetRawButton(Trigger)){
+	if(codriverStick.GetRawButton(BTN_SHOOT)){
 		shooter->Shoot();
 	}
 }
 
 void coDriver::forkCheck(ForkLift *fork)
 {
-	if(codriverStick.GetRawButton(ForkUp) && fork->getMode() != LOWER)
-	{
+	if (fork->getMode() != FORK_GOING_UP) {
+		fork->setMode(FORK_STOPPED);
+	}
+	
+	if(codriverStick.GetRawButton(BTN_FORK_UP)) {
+		fork->setMode(FORK_GOING_UP);
+	}
+	else if (codriverStick.GetRawButton(BTN_FORK_DN)) {
+		fork->setMode(FORK_GOING_DN);
+	}
+
+	if (fork->getMode() == FORK_STOPPED) {
+		fork->stop();
+	}
+	else if (fork->getMode() == FORK_GOING_UP) {
 		fork->raise();
 	}
-	else if (codriverStick.GetRawButton(ForkDn))
-	{
+	else if (fork->getMode() == FORK_GOING_DN) {
 		fork->lower();
 	}
-	else if (!codriverStick.GetRawButton(ForkDn) && fork->getMode() != RAISE)
-	{
-		fork->stop();
-	}
-/*	
-	else {
-		fork->stop();
-		fork->setMode(false);
-	}
-*/
-	if (fork->getMode() == STOP) {
-		fork->stop();
-	}
-	else if (fork->getMode() == RAISE) {
-		fork->raise();
-	}
-	/*
-	else if (fork->getMode() == LOWER) {
-		fork->lower();
-	}
-	*/
 }
 void coDriver::winderCheck(BigBlueBallShooter *winder){
-	if(codriverStick.GetRawButton(windBtn))
+	if(codriverStick.GetRawButton(BTN_WIND))
 	{
 		winder->Wind();
 	}

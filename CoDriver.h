@@ -6,10 +6,10 @@
 #include "Support.h"
 
 #define codriverStickPort 3
-#define Trigger 10
-#define ForkUp 2
-#define ForkDn 3
-#define windBtn 9
+#define BTN_SHOOT 10
+#define BTN_FORK_UP 2
+#define BTN_FORK_DN 3
+#define BTN_WIND 9
 
 #define STOP 0
 #define RAISE 1

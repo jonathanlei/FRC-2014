@@ -57,34 +57,33 @@ ForkLift::ForkLift(void):
 	upperLimit(FORK_UPPER_LIMIT_PORT),
 	lowerLimit(FORK_LOWER_LIMIT_PORT)
 {
-	this->setMode(false);
+	this->setMode(FORK_STOPPED);
 }
 void ForkLift::raise()
 {
 	if (this->upperLimit.Get() == 0) {
-		this->lifterMotor.Set(-.1);
-		this->setMode(1);		
+		this->lifterMotor.Set(-.5);
+		this->setMode(FORK_GOING_UP);		
 	}
 	else {
 		this->lifterMotor.Set(0);
-		this->setMode(0);
+		this->setMode(FORK_STOPPED);
 	}
 }
 void ForkLift::lower()
 {
 	if (this->lowerLimit.Get() == 0) {
-		printf("Lowering fork!\n");
-		this->lifterMotor.Set(.1);
-		this->setMode(2);
+		this->lifterMotor.Set(.5);
+		this->setMode(FORK_GOING_DN);
 	}
 	else{
 		this->lifterMotor.Set(0);
-		this->setMode(0);
+		this->setMode(FORK_STOPPED);
 	}
 }
 void ForkLift::stop(){
 	this->lifterMotor.Set(0);
-	this->setMode(0);
+	this->setMode(FORK_STOPPED);
 }
 
 void ForkLift::setMode(int mode) {

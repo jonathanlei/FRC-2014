@@ -18,6 +18,11 @@
 // port three used for Compressor Pressure Switch
 #define WINDER_LIMIT_PORT 4
 
+// Fork Motion Modes
+#define FORK_STOPPED 0
+#define FORK_GOING_UP 1
+#define FORK_GOING_DN 2
+
 class BigBlueBallShooter
 {
 	Victor winderMotor;
