@@ -3,12 +3,16 @@
 
 BigBlueBallShooter::BigBlueBallShooter(void):
 	winderMotor(WINDER_MOTOR_PORT),
-	winderLimit(WINDER_LIMIT_PORT)
+	winderLimit(WINDER_LIMIT_PORT),
+	lifterMotor(LIFTER_MOTOR_PORT),
+	upperLimit(FORK_UPPER_LIMIT_PORT),
+	lowerLimit(FORK_LOWER_LIMIT_PORT)
 {
 	this->pSolenoid1 = new Solenoid(CYLINDER_PORT1); // connect solenoid to proper channel on pneumatics card
 //	this->pSolenoid2 = new Solenoid(CYLINDER_PORT2); // connect solenoid to proper channel on pneumatics card
 	this->Release();
 	this->winderMotor.Set(0);
+	this->setMode(FORK_STOPPED);
 }
 void BigBlueBallShooter::Release()
 {
@@ -44,6 +48,9 @@ void BigBlueBallShooter::Shoot()
 		this->Wind();
 		Wait(.01);
 	}
+	this->lower();
+	Wait(.1);
+	this->stop();
 	this->Fire();
 }
 void BigBlueBallShooter::Fire(){
@@ -52,25 +59,24 @@ void BigBlueBallShooter::Fire(){
 		// Reverse motor briefly to jar the cylinder loose and allow spring to retract
 		this->Kick();
 }
-ForkLift::ForkLift(void):
-	lifterMotor(LIFTER_MOTOR_PORT),
-	upperLimit(FORK_UPPER_LIMIT_PORT),
-	lowerLimit(FORK_LOWER_LIMIT_PORT)
-{
-	this->setMode(FORK_STOPPED);
-}
-void ForkLift::raise()
+void BigBlueBallShooter::raise()
 {
 	if (this->upperLimit.Get() == 0) {
 		this->lifterMotor.Set(-.5);
 		this->setMode(FORK_GOING_UP);		
 	}
 	else {
+		this->kickDown();
 		this->lifterMotor.Set(0);
 		this->setMode(FORK_STOPPED);
 	}
 }
-void ForkLift::lower()
+void BigBlueBallShooter::kickDown(){
+	this->lifterMotor.Set(-1);
+	Wait(.01);
+	this->stop();
+}
+void BigBlueBallShooter::lower()
 {
 	if (this->lowerLimit.Get() == 0) {
 		this->lifterMotor.Set(.5);
@@ -81,15 +87,15 @@ void ForkLift::lower()
 		this->setMode(FORK_STOPPED);
 	}
 }
-void ForkLift::stop(){
+void BigBlueBallShooter::stop(){
 	this->lifterMotor.Set(0);
 	this->setMode(FORK_STOPPED);
 }
 
-void ForkLift::setMode(int mode) {
+void BigBlueBallShooter::setMode(int mode) {
 	this->raiseMode = mode;
 }
 
-int ForkLift::getMode() {
+int BigBlueBallShooter::getMode() {
 	return this->raiseMode;
 }

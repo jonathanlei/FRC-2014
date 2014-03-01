@@ -25,7 +25,6 @@ class Robot_2014 : public SimpleRobot
 	rangeFinder *rangeFront;
 //	Gyro *gyro;
 	Compressor *compressor;
-	ForkLift *fork;
 	
 public:
 	Robot_2014(void){
@@ -36,7 +35,6 @@ public:
 //		gyro = new Gyro(1);
 		compressor = new Compressor(PRESSURE_SWITCH_PORT, SPIKE_RELAY_PORT);
 //		compressor->Start();
-		fork = new ForkLift;
 		
 	}
 	~Robot_2014(void) {
@@ -46,7 +44,6 @@ public:
 //		delete gyro;
 		delete compressor;
 		delete rangeFront;
-		delete fork;
 	}
 	void RobotInit()
 	{
@@ -175,7 +172,7 @@ public:
 	}
 	static int coDriverTask(Robot_2014 *robot){
 		while (true){
-			robot->Driver->forkCheck(robot->fork);
+			robot->Driver->forkCheck(robot->shooter);
 			robot->Driver->triggerCheck(robot->shooter);
 			robot->Driver->winderCheck(robot->shooter);
 			Wait(.01);

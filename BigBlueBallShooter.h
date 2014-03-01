@@ -27,6 +27,10 @@ class BigBlueBallShooter
 {
 	Victor winderMotor;
 	DigitalInput winderLimit;
+	Victor lifterMotor;
+	DigitalInput upperLimit;
+	DigitalInput lowerLimit;
+	int raiseMode; 			// Forklift mode: 0=stop, 1=raise, 2=lower
 
 public:
 	BigBlueBallShooter();
@@ -35,6 +39,12 @@ public:
 	void stopWind();
 	void Kick();
 	void Fire();
+	void kickDown();
+	void raise();
+	void lower();
+	void stop();
+	void setMode(int); // Set fork mode: Raising
+	int getMode();
 	
 private:
 	Solenoid* pSolenoid1;
@@ -42,20 +52,5 @@ private:
 	void Release();
 	void Engage();
 };
-
-class ForkLift
-{
-	Victor lifterMotor;
-	DigitalInput upperLimit;
-	DigitalInput lowerLimit;
-	int raiseMode; 			// Forklift mode: 0=stop, 1=raise, 2=lower
-	
-public:
-	ForkLift();
-	void raise();
-	void lower();
-	void stop();
-	void setMode(int); // Set fork mode: Raising
-	int getMode();
-};
 #endif
+

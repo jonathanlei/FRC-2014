@@ -17,7 +17,7 @@ void mainDriver::teleopDrive(void){
 
 	// CRE: FIXME - Would be nice to have a run-time toggle to switch between drive modes. SendableChooser?
 	if (abs(int(gamePad.GetRawAxis(1))) > .1 or abs(int(gamePad.GetRawAxis(2))) > .1 or abs(int(gamePad.GetRawAxis(4))) > .1){
-		this->mecBoxDrive();
+		this->mecBoxDrive(true);
 	}
 	else{
 		this->mecanumDrive(leftStick.GetX(), leftStick.GetY(), rightStick.GetX(), rightStick.GetY(), true); // last argument squares the inputs, which is better for percise control
@@ -85,10 +85,30 @@ void mainDriver::arcadeDrive(float stickx, float sticky){
 	frontLeftMotor.Set(stickx + sticky);
 	rearLeftMotor.Set(stickx + sticky);
 }
-void mainDriver::mecBoxDrive(){
+void mainDriver::mecBoxDrive(bool squared){
 	float leftX = gamePad.GetRawAxis(1);
 	float leftY = gamePad.GetRawAxis(2);
 	float rightX = gamePad.GetRawAxis(4);
+	if (squared){
+		if (leftX < 0){
+			leftX = -pow(leftX, 2);
+		}
+		else{
+			leftX = pow(leftX, 2);
+		}
+		if (leftY < 0){
+			leftY = -pow(leftY, 2);
+		}
+		else{
+			leftY = pow(leftY, 2);
+		}
+		if (rightX < 0){
+			rightX = -pow(rightX, 2);
+		}
+		else{
+			rightX = pow(rightX, 2);
+		}
+	}
 	frontRightMotor.Set(leftY + leftX + rightX);
 	rearRightMotor.Set(leftY - leftX + rightX);
 	frontLeftMotor.Set(-1 * (leftY - leftX - rightX));
@@ -140,16 +160,16 @@ void mainDriver::triggerCheck(BigBlueBallShooter *shooter){
 	}
 }
 
-void mainDriver::forkCheck(ForkLift *fork)
+void mainDriver::forkCheck(BigBlueBallShooter *fork)
 {
 	if (fork->getMode() != FORK_GOING_UP) {
 		fork->setMode(FORK_STOPPED);
 	}
 
-	if(rightStick.GetRawButton(TRIGGER) or gamePad.GetRawAxis(3) > .5) {
+	if(rightStick.GetRawButton(TRIGGER) or gamePad.GetRawAxis(3) < -.5) {
 		fork->setMode(FORK_GOING_UP);
 	}
-	else if (leftStick.GetRawButton(TRIGGER) or gamePad.GetRawAxis(3) < -.5) {
+	else if (leftStick.GetRawButton(TRIGGER) or gamePad.GetRawAxis(3) > .5) {
 		fork->setMode(FORK_GOING_DN);
 	}
 

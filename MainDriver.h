@@ -46,7 +46,7 @@ public:
 	void arcadeDrive(float stickx, float sticky);
 	void Turn(float speed);
 	void mecanumDrive(float leftStickx, float leftSticky, float rightStickx, float rightSticky, bool squared);
-	void mecBoxDrive();
+	void mecBoxDrive(bool squared);
 	void triggerCheck(BigBlueBallShooter *);
 	mainDriver(void);
 	void Go(float, float);
@@ -63,7 +63,7 @@ public:
 	float returnLeftJoystick(int);
 	float returnRightJoystick(int);
 	float returnCoJoystick(int);
-	void forkCheck(ForkLift *);
+	void forkCheck(BigBlueBallShooter *);
 	void winderCheck(BigBlueBallShooter *);
 };
 #endif
