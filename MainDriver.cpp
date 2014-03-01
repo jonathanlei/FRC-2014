@@ -6,7 +6,7 @@ mainDriver::mainDriver(void):
 leftStick(leftStickPort),		// as they are declared above.
 rightStick(rightStickPort),
 coDriverStick(coDriverStickPort),
-//gamePad(GAMEPADPORT),
+gamePad(GAMEPADPORT),
 frontRightMotor(frontRightDrivePort),
 frontLeftMotor(frontLeftDrivePort),
 rearRightMotor(rearRightDrivePort),
@@ -16,15 +16,12 @@ rearLeftMotor(rearLeftDrivePort)
 void mainDriver::teleopDrive(void){
 
 	// CRE: FIXME - Would be nice to have a run-time toggle to switch between drive modes. SendableChooser?
-	this->mecanumDrive(leftStick.GetX(), leftStick.GetY(), rightStick.GetX(), rightStick.GetY(), true); // last argument squares the inputs, which is better for percise control
-	/*
-	int driveMode = JOYSTICK_TANK;
-
-bp	if (driveMode == XBOX_TANK) {
-		myRobot.tankDrive(gamePad.GetRawAxis(2), gamePad.GetRawAxis(5), true);
-	} else if (driveMode == JOYSTICK_TANK){
-		myRobot.tankDrive(leftStick.GetY(), rightStick.GetY(), true); // last argument squares the inputs, which is better for percise control
-	} //sorry estabrooks, i hate compilier warnings */
+	if (abs(int(gamePad.GetRawAxis(1))) > .1 or abs(int(gamePad.GetRawAxis(2))) > .1 or abs(int(gamePad.GetRawAxis(4))) > .1){
+		this->mecBoxDrive();
+	}
+	else{
+		this->mecanumDrive(leftStick.GetX(), leftStick.GetY(), rightStick.GetX(), rightStick.GetY(), true); // last argument squares the inputs, which is better for percise control
+	}
 }
 double mainDriver::Lefty(void){
 	return leftStick.GetY();
@@ -88,11 +85,14 @@ void mainDriver::arcadeDrive(float stickx, float sticky){
 	frontLeftMotor.Set(stickx + sticky);
 	rearLeftMotor.Set(stickx + sticky);
 }
-void mainDriver::mecBoxDrive(Joystick controller){
-//	frontRightMotor.Set(rightSticky + rightStickx);
-//	rearRightMotor.Set(rightSticky - rightStickx);
-//	frontLeftMotor.Set(-1 * (leftSticky - leftStickx));
-//	rearLeftMotor.Set(-1 * (leftSticky + leftStickx));
+void mainDriver::mecBoxDrive(){
+	float leftX = gamePad.GetRawAxis(1);
+	float leftY = gamePad.GetRawAxis(2);
+	float rightX = gamePad.GetRawAxis(4);
+	frontRightMotor.Set(leftY - leftX + rightX);
+	rearRightMotor.Set(leftY + leftX + rightX);
+	frontLeftMotor.Set(-1 * (leftY + leftX - rightX));
+	rearLeftMotor.Set(-1 * (leftY - leftX - rightX));
 }
 void mainDriver::mecanumDrive(float leftStickx, float leftSticky, float rightStickx, float rightSticky, bool squared){
 	if (squared){
@@ -146,10 +146,10 @@ void mainDriver::forkCheck(ForkLift *fork)
 		fork->setMode(FORK_STOPPED);
 	}
 
-	if(coDriverStick.GetRawButton(BTN_FORK_UP)) {
+	if(rightStick.GetRawButton(TRIGGER) or gamePad.GetRawAxis(3) > .5) {
 		fork->setMode(FORK_GOING_UP);
 	}
-	else if (coDriverStick.GetRawButton(BTN_FORK_DN)) {
+	else if (leftStick.GetRawButton(TRIGGER) or gamePad.GetRawAxis(3) < -.5) {
 		fork->setMode(FORK_GOING_DN);
 	}
 

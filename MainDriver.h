@@ -10,13 +10,15 @@
 // these are the ports for the joysticks on the PC
 #define rightStickPort 2
 #define leftStickPort 1
-#define GAMEPADPORT 3
+#define GAMEPADPORT 4
 
 #define coDriverStickPort 3
 #define BTN_SHOOT 10
 #define BTN_FORK_UP 2
 #define BTN_FORK_DN 3
 #define BTN_WIND 9
+
+#define TRIGGER 1
 
 #define STOP 0
 #define RAISE 1
@@ -33,6 +35,7 @@ class mainDriver {
 	Joystick leftStick; // left joystick
 	Joystick rightStick; // right joystick
 	Joystick coDriverStick; // Where "1" is the index of the joystick (you can set this in the Driver Station software).
+	Joystick gamePad;
 	int driveMode;
 	Jaguar frontRightMotor; // Testbed uses Victors, Aerial Panic uses Jaguars
 	Jaguar frontLeftMotor;
@@ -43,7 +46,7 @@ public:
 	void arcadeDrive(float stickx, float sticky);
 	void Turn(float speed);
 	void mecanumDrive(float leftStickx, float leftSticky, float rightStickx, float rightSticky, bool squared);
-	void mecBoxDrive(Joystick controller);
+	void mecBoxDrive();
 	void triggerCheck(BigBlueBallShooter *);
 	mainDriver(void);
 	void Go(float, float);
