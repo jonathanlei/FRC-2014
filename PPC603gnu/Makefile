@@ -166,10 +166,6 @@ SimpleTemplate_partialImage/$(MODE_DIR)/Objects/Robot_2014/BigBlueBallShooter.o 
 	$(TRACE_FLAG)if [ ! -d "`dirname "$@"`" ]; then mkdir -p "`dirname "$@"`"; fi;echo "building $@"; $(TOOL_PATH)ccppc $(DEBUGFLAGS_C++-Compiler) $(CC_ARCH_SPEC) -ansi -Wall  -MD -MP -mlongcall $(ADDED_C++FLAGS) $(IDE_INCLUDES) $(ADDED_INCLUDES) -DCPU=$(CPU) -DTOOL_FAMILY=$(TOOL_FAMILY) -DTOOL=$(TOOL) -D_WRS_KERNEL   $(DEFINES) -o "$@" -c "$<"
 
 
-SimpleTemplate_partialImage/$(MODE_DIR)/Objects/Robot_2014/CoDriver.o : $(PRJ_ROOT_DIR)/CoDriver.cpp $(FORCE_FILE_BUILD)
-	$(TRACE_FLAG)if [ ! -d "`dirname "$@"`" ]; then mkdir -p "`dirname "$@"`"; fi;echo "building $@"; $(TOOL_PATH)ccppc $(DEBUGFLAGS_C++-Compiler) $(CC_ARCH_SPEC) -ansi -Wall  -MD -MP -mlongcall $(ADDED_C++FLAGS) $(IDE_INCLUDES) $(ADDED_INCLUDES) -DCPU=$(CPU) -DTOOL_FAMILY=$(TOOL_FAMILY) -DTOOL=$(TOOL) -D_WRS_KERNEL   $(DEFINES) -o "$@" -c "$<"
-
-
 SimpleTemplate_partialImage/$(MODE_DIR)/Objects/Robot_2014/MainDriver.o : $(PRJ_ROOT_DIR)/MainDriver.cpp $(FORCE_FILE_BUILD)
 	$(TRACE_FLAG)if [ ! -d "`dirname "$@"`" ]; then mkdir -p "`dirname "$@"`"; fi;echo "building $@"; $(TOOL_PATH)ccppc $(DEBUGFLAGS_C++-Compiler) $(CC_ARCH_SPEC) -ansi -Wall  -MD -MP -mlongcall $(ADDED_C++FLAGS) $(IDE_INCLUDES) $(ADDED_INCLUDES) -DCPU=$(CPU) -DTOOL_FAMILY=$(TOOL_FAMILY) -DTOOL=$(TOOL) -D_WRS_KERNEL   $(DEFINES) -o "$@" -c "$<"
 
@@ -182,16 +178,10 @@ SimpleTemplate_partialImage/$(MODE_DIR)/Objects/Robot_2014/Support.o : $(PRJ_ROO
 	$(TRACE_FLAG)if [ ! -d "`dirname "$@"`" ]; then mkdir -p "`dirname "$@"`"; fi;echo "building $@"; $(TOOL_PATH)ccppc $(DEBUGFLAGS_C++-Compiler) $(CC_ARCH_SPEC) -ansi -Wall  -MD -MP -mlongcall $(ADDED_C++FLAGS) $(IDE_INCLUDES) $(ADDED_INCLUDES) -DCPU=$(CPU) -DTOOL_FAMILY=$(TOOL_FAMILY) -DTOOL=$(TOOL) -D_WRS_KERNEL   $(DEFINES) -o "$@" -c "$<"
 
 
-SimpleTemplate_partialImage/$(MODE_DIR)/Objects/Robot_2014/ktkLib.o : $(PRJ_ROOT_DIR)/ktkLib.cpp $(FORCE_FILE_BUILD)
-	$(TRACE_FLAG)if [ ! -d "`dirname "$@"`" ]; then mkdir -p "`dirname "$@"`"; fi;echo "building $@"; $(TOOL_PATH)ccppc $(DEBUGFLAGS_C++-Compiler) $(CC_ARCH_SPEC) -ansi -Wall  -MD -MP -mlongcall $(ADDED_C++FLAGS) $(IDE_INCLUDES) $(ADDED_INCLUDES) -DCPU=$(CPU) -DTOOL_FAMILY=$(TOOL_FAMILY) -DTOOL=$(TOOL) -D_WRS_KERNEL   $(DEFINES) -o "$@" -c "$<"
-
-
 OBJECTS_SimpleTemplate_partialImage = SimpleTemplate_partialImage/$(MODE_DIR)/Objects/Robot_2014/BigBlueBallShooter.o \
-	 SimpleTemplate_partialImage/$(MODE_DIR)/Objects/Robot_2014/CoDriver.o \
 	 SimpleTemplate_partialImage/$(MODE_DIR)/Objects/Robot_2014/MainDriver.o \
 	 SimpleTemplate_partialImage/$(MODE_DIR)/Objects/Robot_2014/Robot_2014.o \
-	 SimpleTemplate_partialImage/$(MODE_DIR)/Objects/Robot_2014/Support.o \
-	 SimpleTemplate_partialImage/$(MODE_DIR)/Objects/Robot_2014/ktkLib.o
+	 SimpleTemplate_partialImage/$(MODE_DIR)/Objects/Robot_2014/Support.o
 
 SimpleTemplate_partialImage/$(MODE_DIR)/SimpleTemplate_partialImage.o : $(OBJECTS_SimpleTemplate_partialImage)
 	$(TRACE_FLAG)if [ ! -d "`dirname "$@"`" ]; then mkdir -p "`dirname "$@"`"; fi;echo "building $@"; $(TOOL_PATH)ccppc -r -nostdlib -Wl,-X  -o "$@" $(OBJECTS_SimpleTemplate_partialImage) $(LIBPATH) $(LIBS) $(ADDED_LIBPATH) $(ADDED_LIBS)  && if [ "$(EXPAND_DBG)" = "1" ]; then plink "$@";fi
@@ -205,8 +195,8 @@ SimpleTemplate_partialImage/$(MODE_DIR)/SimpleTemplate_partialImage_clean :
 
 force : 
 
-DEP_FILES := SimpleTemplate_partialImage/$(MODE_DIR)/Objects/Robot_2014/BigBlueBallShooter.d SimpleTemplate_partialImage/$(MODE_DIR)/Objects/Robot_2014/CoDriver.d SimpleTemplate_partialImage/$(MODE_DIR)/Objects/Robot_2014/MainDriver.d \
-	 SimpleTemplate_partialImage/$(MODE_DIR)/Objects/Robot_2014/Robot_2014.d SimpleTemplate_partialImage/$(MODE_DIR)/Objects/Robot_2014/Support.d SimpleTemplate_partialImage/$(MODE_DIR)/Objects/Robot_2014/ktkLib.d
+DEP_FILES := SimpleTemplate_partialImage/$(MODE_DIR)/Objects/Robot_2014/BigBlueBallShooter.d SimpleTemplate_partialImage/$(MODE_DIR)/Objects/Robot_2014/MainDriver.d SimpleTemplate_partialImage/$(MODE_DIR)/Objects/Robot_2014/Robot_2014.d \
+	 SimpleTemplate_partialImage/$(MODE_DIR)/Objects/Robot_2014/Support.d
 -include $(DEP_FILES)
 
 

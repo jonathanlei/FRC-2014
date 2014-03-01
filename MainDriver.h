@@ -1,7 +1,7 @@
 #ifndef MAINDRIVER_H_
 #define MAINDRIVER_H_
+#include "BigBlueBallShooter.h"
 // these are the pwn ports for the left and right motors respectively
-#include "ktkLib.h"
 #define frontRightDrivePort 2
 #define rearRightDrivePort 4
 #define frontLeftDrivePort 1
@@ -12,6 +12,16 @@
 #define leftStickPort 1
 #define GAMEPADPORT 3
 
+#define coDriverStickPort 3
+#define BTN_SHOOT 10
+#define BTN_FORK_UP 2
+#define BTN_FORK_DN 3
+#define BTN_WIND 9
+
+#define STOP 0
+#define RAISE 1
+#define LOWER 2
+
 // Driver Controller Mode
 #define JOYSTICK_TANK 0
 #define JOYSTICK_MECANUM 1
@@ -20,15 +30,23 @@
 #define XBOX_MECANUM 4
 
 class mainDriver {
-	robotDriver myRobot; // robot drive system
 	Joystick leftStick; // left joystick
 	Joystick rightStick; // right joystick
-	Joystick gamePad; // Where "1" is the index of the joystick (you can set this in the Driver Station software).
+	Joystick coDriverStick; // Where "1" is the index of the joystick (you can set this in the Driver Station software).
 	int driveMode;
+	Jaguar frontRightMotor; // Testbed uses Victors, Aerial Panic uses Jaguars
+	Jaguar frontLeftMotor;
+	Jaguar rearRightMotor;
+	Jaguar rearLeftMotor;
 public:
+	void tankDrive(float leftStick, float rightStick, bool squared);
+	void arcadeDrive(float stickx, float sticky);
+	void Turn(float speed);
+	void mecanumDrive(float leftStickx, float leftSticky, float rightStickx, float rightSticky, bool squared);
+	void mecBoxDrive(Joystick controller);
+	void triggerCheck(BigBlueBallShooter *);
 	mainDriver(void);
 	void Go(float, float);
-	void Turn(float);
 	void teleopDrive(void);
 //	void arcadeDrive(void);
 //	void disableSafety(void);
@@ -41,6 +59,8 @@ public:
 	double rightThrottle(void);
 	float returnLeftJoystick(int);
 	float returnRightJoystick(int);
-
+	float returnCoJoystick(int);
+	void forkCheck(ForkLift *);
+	void winderCheck(BigBlueBallShooter *);
 };
 #endif
