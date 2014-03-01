@@ -89,10 +89,10 @@ void mainDriver::mecBoxDrive(){
 	float leftX = gamePad.GetRawAxis(1);
 	float leftY = gamePad.GetRawAxis(2);
 	float rightX = gamePad.GetRawAxis(4);
-	frontRightMotor.Set(leftY - leftX + rightX);
-	rearRightMotor.Set(leftY + leftX + rightX);
-	frontLeftMotor.Set(-1 * (leftY + leftX - rightX));
-	rearLeftMotor.Set(-1 * (leftY - leftX - rightX));
+	frontRightMotor.Set(leftY + leftX + rightX);
+	rearRightMotor.Set(leftY - leftX + rightX);
+	frontLeftMotor.Set(-1 * (leftY - leftX - rightX));
+	rearLeftMotor.Set(-1 * (leftY + leftX - rightX));
 }
 void mainDriver::mecanumDrive(float leftStickx, float leftSticky, float rightStickx, float rightSticky, bool squared){
 	if (squared){
