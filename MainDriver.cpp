@@ -16,7 +16,7 @@ rearLeftMotor(rearLeftDrivePort)
 void mainDriver::teleopDrive(void){
 
 	// CRE: FIXME - Would be nice to have a run-time toggle to switch between drive modes. SendableChooser?
-	if (abs(int(gamePad.GetRawAxis(1))) > .1 or abs(int(gamePad.GetRawAxis(2))) > .1 or abs(int(gamePad.GetRawAxis(4))) > .1){
+	if (sqrt(pow(gamePad.GetRawAxis(1), 2)) > .1 or sqrt(pow(gamePad.GetRawAxis(2), 2)) > .1 or sqrt(pow(gamePad.GetRawAxis(4), 2)) > .1){
 		this->mecBoxDrive(true);
 	}
 	else{
