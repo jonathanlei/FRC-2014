@@ -49,15 +49,16 @@ void BigBlueBallShooter::Shoot()
 	// Engage winder gear
 	this->Engage();
 	// Wait until the limit switch is pressed
+	this->Wind();
 	while (winderLimit.Get() == 0)
 	{
 		// wind
-		this->Wind();
 		Wait(.01);
 	}
-	this->lower();
+	this->lowerFork();
+	this->stopWind();
 	Wait(.1);
-	this->stop();
+	this->stopFork();
 	this->Fire();
 }
 void BigBlueBallShooter::Fire(){
@@ -66,7 +67,7 @@ void BigBlueBallShooter::Fire(){
 		// Reverse motor briefly to jar the cylinder loose and allow spring to retract
 		this->Kick();
 }
-void BigBlueBallShooter::raise()
+void BigBlueBallShooter::raiseFork()
 {
 	if (this->upperLimit.Get() == 0) {
 		this->lifterMotor.Set(-.5);
@@ -81,9 +82,9 @@ void BigBlueBallShooter::raise()
 void BigBlueBallShooter::kickDown(){
 	this->lifterMotor.Set(-1);
 	Wait(.01);
-	this->stop();
+	this->stopFork();
 }
-void BigBlueBallShooter::lower()
+void BigBlueBallShooter::lowerFork()
 {
 	if (this->lowerLimit.Get() == 0) {
 		this->lifterMotor.Set(.5);
@@ -94,7 +95,7 @@ void BigBlueBallShooter::lower()
 		this->setMode(FORK_STOPPED);
 	}
 }
-void BigBlueBallShooter::stop(){
+void BigBlueBallShooter::stopFork(){
 	this->lifterMotor.Set(0);
 	this->setMode(FORK_STOPPED);
 }

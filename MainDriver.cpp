@@ -174,13 +174,13 @@ void mainDriver::forkCheck(BigBlueBallShooter *fork)
 	}
 
 	if (fork->getMode() == FORK_STOPPED) {
-		fork->stop();
+		fork->stopFork();
 	}
 	else if (fork->getMode() == FORK_GOING_UP) {
-		fork->raise();
+		fork->raiseFork();
 	}
 	else if (fork->getMode() == FORK_GOING_DN) {
-		fork->lower();
+		fork->lowerFork();
 	}
 }
 void mainDriver::winderCheck(BigBlueBallShooter *winder){

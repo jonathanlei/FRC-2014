@@ -40,9 +40,9 @@ public:
 	void Kick();
 	void Fire();
 	void kickDown();
-	void raise();
-	void lower();
-	void stop();
+	void raiseFork();
+	void lowerFork();
+	void stopFork();
 	void setMode(int); // Set fork mode: Raising
 	int getMode();
 	
