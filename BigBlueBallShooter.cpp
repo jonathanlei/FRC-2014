@@ -26,8 +26,15 @@ void BigBlueBallShooter::Engage()
 //	this->pSolenoid2->Set(false);
 }
 void BigBlueBallShooter::Wind(){
-	this->Engage();
-	winderMotor.Set(1.0);
+	if (not winderLimit.Get()){
+		this->Engage();
+		printf("winding\n");
+		winderMotor.Set(1.0);
+	}
+	else {
+		printf("hit switch, stopping");
+		winderMotor.Set(0);
+	}
 }
 void BigBlueBallShooter::Kick(){
 	winderMotor.Set(-1.0);
