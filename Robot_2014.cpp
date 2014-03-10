@@ -21,6 +21,7 @@ class Robot_2014 : public SimpleRobot
 	mainDriver *Driver;
 	DriverStationLCD *DsLCD;
 	Task *coDriveTask;
+	Task *shooterTask;
 	BigBlueBallShooter *shooter;
 	rangeFinder *rangeFront;
 //	Gyro *gyro;
@@ -54,6 +55,7 @@ public:
 	void Disabled()
 	{
 		printf("I'm disabled!\n");
+		stopTasks();
 	}
 	/**
 	 * CRE 01-11-14 Attempting to add test code.
@@ -173,9 +175,15 @@ public:
 	static int coDriverTask(Robot_2014 *robot){
 		while (true){
 			robot->Driver->forkCheck(robot->shooter);
-			robot->Driver->triggerCheck(robot->shooter);
 			robot->Driver->winderCheck(robot->shooter);
+			robot->Driver->triggerCheck(robot->shooter);
 			Wait(.01);
+		}
+		return 0;
+	}
+	static int shootTask(Robot_2014 *robot){
+		while (true){
+			Wait(.05);
 		}
 		return 0;
 	}
@@ -184,9 +192,13 @@ public:
 		sprintf(name, "coDriverThread-%ld", GetFPGATime());
 		coDriveTask = new Task(name, (FUNCPTR)this->coDriverTask);
 		coDriveTask->Start((INT32)this);	
+		sprintf(name, "shooterThread-%ld", GetFPGATime());
+		shooterTask = new Task(name, (FUNCPTR)this->shootTask);
+		shooterTask->Start((INT32)this);	
 	}
 	void stopTasks(void){
 		coDriveTask->Stop();
+		shooterTask->Stop();
 	}
 };
 

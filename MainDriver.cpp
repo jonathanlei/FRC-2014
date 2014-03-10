@@ -156,6 +156,7 @@ void mainDriver::mecanumDrive(float leftStickx, float leftSticky, float rightSti
 
 void mainDriver::triggerCheck(BigBlueBallShooter *shooter){
 	if(coDriverStick.GetRawButton(BTN_SHOOT)){
+		printf("shooting");
 		shooter->Shoot();
 	}
 }

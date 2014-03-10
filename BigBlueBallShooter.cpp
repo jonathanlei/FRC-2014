@@ -55,9 +55,9 @@ void BigBlueBallShooter::Shoot()
 		// wind
 		Wait(.01);
 	}
-	this->lowerFork();
+	this->kickDown();
 	this->stopWind();
-	Wait(.1);
+	Wait(.5);
 	this->stopFork();
 	this->Fire();
 }
@@ -75,14 +75,14 @@ void BigBlueBallShooter::raiseFork()
 	}
 	else {
 		this->kickDown();
+		Wait(.05);
+		this->stopFork();
 		this->lifterMotor.Set(0);
 		this->setMode(FORK_STOPPED);
 	}
 }
 void BigBlueBallShooter::kickDown(){
 	this->lifterMotor.Set(-1);
-	Wait(.01);
-	this->stopFork();
 }
 void BigBlueBallShooter::lowerFork()
 {
