@@ -62,7 +62,7 @@ public:
 	double rightThrottle(void);
 	float returnLeftJoystick(int);
 	float returnRightJoystick(int);
-	float returnCoJoystick(int);
+	float returnMainJoystick(int);
 	void forkCheck(BigBlueBallShooter *);
 	void winderCheck(BigBlueBallShooter *);
 };

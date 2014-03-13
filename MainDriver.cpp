@@ -24,16 +24,16 @@ void mainDriver::teleopDrive(void){
 	}
 }
 double mainDriver::Lefty(void){
-	return leftStick.GetY();
+	return gamePad.GetRawAxis(2);
 }
 double mainDriver::Righty(void){
-	return rightStick.GetY();
+	return gamePad.GetRawAxis(3);
 }
 double mainDriver::Leftx(void){
-	return leftStick.GetX();
+	return gamePad.GetRawAxis(1);
 }
 double mainDriver::Rightx(void){
-	return rightStick.GetX();
+	return gamePad.GetRawAxis(4);
 }
 double mainDriver::rightThrottle(void){
 	return rightStick.GetThrottle();
@@ -47,8 +47,8 @@ float mainDriver::returnLeftJoystick(int port){
 float mainDriver::returnRightJoystick(int port){
 	return rightStick.GetRawButton(port);
 }
-float mainDriver::returnCoJoystick(int port){
-	return coDriverStick.GetRawButton(port);
+float mainDriver::returnMainJoystick(int port){
+	return gamePad.GetRawButton(port);
 }
 void mainDriver::tankDrive(float leftStick, float rightStick, bool squared){
 
@@ -163,15 +163,14 @@ void mainDriver::triggerCheck(BigBlueBallShooter *shooter){
 
 void mainDriver::forkCheck(BigBlueBallShooter *fork)
 {
-	if (fork->getMode() != FORK_GOING_UP) {
-		fork->setMode(FORK_STOPPED);
+	if(leftStick.GetRawButton(TRIGGER) or gamePad.GetRawAxis(3) < -.5) {
+		//fork->setMode(FORK_STOPPED);
 	}
-
-	if(rightStick.GetRawButton(TRIGGER) or gamePad.GetRawAxis(3) < -.5) {
-		fork->setMode(FORK_GOING_UP);
-	}
-	else if (leftStick.GetRawButton(TRIGGER) or gamePad.GetRawAxis(3) > .5) {
+	/*else */if (rightStick.GetRawButton(TRIGGER) or gamePad.GetRawAxis(3) > .5) {
 		fork->setMode(FORK_GOING_DN);
+	}
+	else{
+		fork->setMode(FORK_GOING_UP);
 	}
 
 	if (fork->getMode() == FORK_STOPPED) {

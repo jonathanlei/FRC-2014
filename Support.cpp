@@ -15,6 +15,9 @@ float rangeFinder::getRangeIn()
 	float range = this->getVoltage();
 	return (range * this->inFactor);
 }
+bool rangeFinder::inRange(){
+	return 2.2 < this->getRangeFt() < 2.8;
+}
 float rangeFinder::getVoltage()
 {
 	this->sonar->SetAverageBits(2);

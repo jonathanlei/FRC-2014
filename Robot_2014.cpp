@@ -21,7 +21,6 @@ class Robot_2014 : public SimpleRobot
 	mainDriver *Driver;
 	DriverStationLCD *DsLCD;
 	Task *coDriveTask;
-	Task *shooterTask;
 	BigBlueBallShooter *shooter;
 	rangeFinder *rangeFront;
 //	Gyro *gyro;
@@ -139,25 +138,17 @@ public:
 	static int notifierTask(Robot_2014 *robot){
 		// This task manages putting joystick values on to the dashboard
 		while (true){  //  Being a task, we loop forever (or until Task::Stop() is used)
-			for (int differentJoysticks = 1; differentJoysticks < 4; differentJoysticks++){ // for each of our three joysticks
-				for (int count = 1; count < 12; count++){ // for each button on a joystick
+				for (int count = 1; count < 11; count++){ // for each button on a joystick
 					char location [5]; // create a sting that has a buffer 5 characters long for brian cryptic button names
 					bool buttonValue; // create a bool that we will feed the current value of the button in to
 					// next we check what joystick we are on and feed that value into buttonValue
-					if (differentJoysticks == 1){ 
-						buttonValue = robot->Driver->returnLeftJoystick(count);
-					}
-					if (differentJoysticks == 2){
-						buttonValue = robot->Driver->returnRightJoystick(count);
-					}
-					if (differentJoysticks == 3){
-						buttonValue = robot->Driver->returnCoJoystick(count);
-					}
-					sprintf(location, "%d_%d", differentJoysticks, count); // make a "joystick#_button#" string to appease brians dashboard
-//					SmartDashboard::PutBoolean(location, buttonValue); // put the finished value on the dashboard
-				}
+					buttonValue = robot->Driver->returnMainJoystick(count);
+					sprintf(location, "%d_%d", 1, count); // make a "joystick#_button#" string to appease brians dashboard
+					SmartDashboard::PutBoolean(location, buttonValue); // put the finished value on the dashboard
+			
 			}
-			/*
+			SmartDashboard::PutBoolean("inRange", robot->rangeFront->inRange());
+			SmartDashboard::PutBoolean("Range", robot->rangeFront->getRangeFt());
 			// the following lines cannot be put on the dashboard by my loop, so i threw them here
 			SmartDashboard::PutNumber("Y-Axis1", robot->Driver->Lefty());
 			SmartDashboard::PutNumber("X-Axis1", robot->Driver->Leftx());
@@ -165,9 +156,8 @@ public:
 			SmartDashboard::PutNumber("X-Axis2", robot->Driver->Rightx());
 			SmartDashboard::PutNumber("Right Drive Motor", robot->Driver->Lefty());
 			SmartDashboard::PutNumber("Left Drive Motor", robot->Driver->Righty());
-			SmartDashboard::PutNumber("Throttle2", robot->Driver->rightThrottle());
-			SmartDashboard::PutNumber("Throttle1", robot->Driver->leftThrottle());
-			*/
+//			SmartDashboard::PutNumber("Throttle2", robot->Driver->rightThrottle());
+//			SmartDashboard::PutNumber("Throttle1", robot->Driver->leftThrottle());
 			Wait(.02);  // lets not starve the crio doing tasks
 		}
 		return 0;
@@ -181,24 +171,14 @@ public:
 		}
 		return 0;
 	}
-	static int shootTask(Robot_2014 *robot){
-		while (true){
-			Wait(.05);
-		}
-		return 0;
-	}
 	void startTasks(void){
 		char name[30];
 		sprintf(name, "coDriverThread-%ld", GetFPGATime());
 		coDriveTask = new Task(name, (FUNCPTR)this->coDriverTask);
-		coDriveTask->Start((INT32)this);	
-		sprintf(name, "shooterThread-%ld", GetFPGATime());
-		shooterTask = new Task(name, (FUNCPTR)this->shootTask);
-		shooterTask->Start((INT32)this);	
+		coDriveTask->Start((INT32)this);
 	}
 	void stopTasks(void){
 		coDriveTask->Stop();
-		shooterTask->Stop();
 	}
 };
 

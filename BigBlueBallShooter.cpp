@@ -74,10 +74,7 @@ void BigBlueBallShooter::raiseFork()
 		this->setMode(FORK_GOING_UP);		
 	}
 	else {
-		this->kickDown();
-		Wait(.05);
 		this->stopFork();
-		this->lifterMotor.Set(0);
 		this->setMode(FORK_STOPPED);
 	}
 }

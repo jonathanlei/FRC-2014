@@ -31,7 +31,7 @@ else
 MODE_DIR := NonDebug
 endif
 OBJ_DIR := .
-WS_ROOT_DIR := C:/Users/Ledyard/Documents/WindRiver_Projects
+WS_ROOT_DIR := C:/Users/Kevin/Documents/Robotics
 PRJ_ROOT_DIR := $(WS_ROOT_DIR)/Robot_2014
 
 
