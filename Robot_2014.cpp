@@ -21,6 +21,7 @@ class Robot_2014 : public SimpleRobot
 	mainDriver *Driver;
 	DriverStationLCD *DsLCD;
 	Task *coDriveTask;
+	Task *notificationTask;
 	BigBlueBallShooter *shooter;
 	rangeFinder *rangeFront;
 //	Gyro *gyro;
@@ -54,7 +55,7 @@ public:
 	void Disabled()
 	{
 		printf("I'm disabled!\n");
-		stopTasks();
+//		stopTasks();
 	}
 	/**
 	 * CRE 01-11-14 Attempting to add test code.
@@ -106,18 +107,29 @@ public:
 		float range = rangeFront->getRangeFt();
 
 		if (IsAutonomous() && IsEnabled()) { // Kevin's Kludgy code fixed by Henry 01-11-14
-			while (range > 2.5)
+			shooter->stopFork();
+			while (range > 6.5 && IsAutonomous() && IsEnabled())
 			{
-				Driver->Go(0.5, 0.0); // Go forward half speed
+				Driver->Go(0.40, 0.0); // Go forward half speed
 				range = rangeFront->getRangeFt();
+/*				if (range < 5.0){
+					shooter->Wind();
+				}
+				*/
 			}
-			printf("RangeFront: %f\n", range);
-			// Brake
-			Driver->Go(-1.0, 0.0);
-			Wait(0.01);
-			Driver->Go(0.0, 0.0);
-			shooter->Shoot();
+			if (IsAutonomous()  && IsEnabled() ){
+				printf("RangeFront: %f\n", range);
+					// Brake
+//				Driver->Go(-1.0, 0.0);
+//				Wait(0.2);
+				Driver->Go(0.0, 0.0);
+				shooter->Shoot();
+			}
 		}
+		while (IsAutonomous()) {
+			Wait(.05);
+		}
+//		Wait(1);
 	}
 	void OperatorControl(void)
 	{
@@ -148,17 +160,26 @@ public:
 			
 			}
 			SmartDashboard::PutBoolean("inRange", robot->rangeFront->inRange());
-			SmartDashboard::PutBoolean("Range", robot->rangeFront->getRangeFt());
+			SmartDashboard::PutNumber("Range", robot->rangeFront->getRangeFt());
 			// the following lines cannot be put on the dashboard by my loop, so i threw them here
-			SmartDashboard::PutNumber("Y-Axis1", robot->Driver->Lefty());
-			SmartDashboard::PutNumber("X-Axis1", robot->Driver->Leftx());
-			SmartDashboard::PutNumber("Y-Axis2", robot->Driver->Righty());
-			SmartDashboard::PutNumber("X-Axis2", robot->Driver->Rightx());
+			SmartDashboard::PutNumber("JS1-Axis1", robot->Driver->Lefty());
+			SmartDashboard::PutNumber("JS1-Axis2", robot->Driver->Leftx());
+			SmartDashboard::PutNumber("JS2-Axis1", robot->Driver->Righty());
+			SmartDashboard::PutNumber("JS2-Axis2", robot->Driver->Rightx());
+			SmartDashboard::PutNumber("JS4-Axis1", robot->Driver->gLefty());
+			SmartDashboard::PutNumber("JS4-Axis2", robot->Driver->gLeftx());
+			SmartDashboard::PutNumber("JS4-Axis4", robot->Driver->gRighty());
+			SmartDashboard::PutNumber("JS4-Axis5", robot->Driver->gRightx());
+			SmartDashboard::PutNumber("JS4-Axis3", robot->Driver->gTrigger());
+			SmartDashboard::PutNumber("Fork_State", robot->shooter->getMode());
+			SmartDashboard::PutBoolean("Fork Up", robot->shooter->returnUpperLimit());
+			SmartDashboard::PutBoolean("Fork Down", robot->shooter->returnLowerLimit());
+			SmartDashboard::PutBoolean("Winder Limit Switch", robot->shooter->returnWinderLimit());
 			SmartDashboard::PutNumber("Right Drive Motor", robot->Driver->Lefty());
 			SmartDashboard::PutNumber("Left Drive Motor", robot->Driver->Righty());
 //			SmartDashboard::PutNumber("Throttle2", robot->Driver->rightThrottle());
 //			SmartDashboard::PutNumber("Throttle1", robot->Driver->leftThrottle());
-			Wait(.02);  // lets not starve the crio doing tasks
+			Wait(.05);  // lets not starve the crio doing tasks
 		}
 		return 0;
 	}
@@ -175,10 +196,14 @@ public:
 		char name[30];
 		sprintf(name, "coDriverThread-%ld", GetFPGATime());
 		coDriveTask = new Task(name, (FUNCPTR)this->coDriverTask);
-		coDriveTask->Start((INT32)this);
+		coDriveTask->Start((INT32)this);	
+//		sprintf(name, "notificationThread-%ld", GetFPGATime());
+//		notificationTask = new Task(name, (FUNCPTR)this->notifierTask);
+//		notificationTask->Start((INT32)this);
 	}
 	void stopTasks(void){
 		coDriveTask->Stop();
+//		notificationTask->Stop();
 	}
 };
 

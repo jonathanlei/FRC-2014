@@ -44,6 +44,9 @@ public:
 	void lowerFork();
 	void stopFork();
 	void setMode(int); // Set fork mode: Raising
+	bool returnUpperLimit();
+	bool returnLowerLimit();
+	bool returnWinderLimit();
 	int getMode();
 	
 private:

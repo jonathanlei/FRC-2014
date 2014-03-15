@@ -47,18 +47,23 @@ void BigBlueBallShooter::stopWind(){
 void BigBlueBallShooter::Shoot()
 {
 	// Engage winder gear
+	printf("shoot sequence\n");
 	this->Engage();
 	// Wait until the limit switch is pressed
 	this->Wind();
+	Wait(2.5);
+	this->lowerFork();
+	Wait(.3);
+	this->stopFork();
 	while (winderLimit.Get() == 0)
 	{
 		// wind
 		Wait(.01);
 	}
-	this->kickDown();
+//	this->lowerFork();  // figure out what this is for, it seems like its old cold that is useless now 
 	this->stopWind();
-	Wait(.5);
-	this->stopFork();
+//	Wait(.25);
+//	this->stopFork();
 	this->Fire();
 }
 void BigBlueBallShooter::Fire(){
@@ -75,12 +80,14 @@ void BigBlueBallShooter::raiseFork()
 	}
 	else {
 		this->stopFork();
+		this->lifterMotor.Set(0);
 		this->setMode(FORK_STOPPED);
 	}
 }
 void BigBlueBallShooter::kickDown(){
-	this->lifterMotor.Set(-1);
+	this->lifterMotor.Set(1);
 }
+
 void BigBlueBallShooter::lowerFork()
 {
 	if (this->lowerLimit.Get() == 0) {
@@ -96,7 +103,15 @@ void BigBlueBallShooter::stopFork(){
 	this->lifterMotor.Set(0);
 	this->setMode(FORK_STOPPED);
 }
-
+bool BigBlueBallShooter::returnUpperLimit(){
+	return this->upperLimit.Get();
+}
+bool BigBlueBallShooter::returnLowerLimit(){
+	return this->lowerLimit.Get();
+}
+bool BigBlueBallShooter::returnWinderLimit(){
+	return this->winderLimit.Get();
+}
 void BigBlueBallShooter::setMode(int mode) {
 	this->raiseMode = mode;
 }

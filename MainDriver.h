@@ -58,6 +58,11 @@ public:
 	double Righty(void);
 	double Leftx(void);
 	double Rightx(void);
+	double gLefty(void);
+	double gRighty(void);
+	double gLeftx(void);
+	double gRightx(void);
+	double gTrigger(void);
 	double leftThrottle(void);
 	double rightThrottle(void);
 	float returnLeftJoystick(int);

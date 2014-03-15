@@ -11,7 +11,7 @@ public:
 	float getRangeIn();
 	float getVoltage();
 	float getInFactor();
-	bool inRange();
 	float getFtFactor();
+	bool inRange();
 };
 #endif
