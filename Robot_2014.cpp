@@ -13,6 +13,7 @@
  *	Programming Staff:
  *	Brian Healy: Team Captain and Labview / TI89 guy
  *	Kevin Konrad: Programming Captain and Python / C++ guy
+ *	Henry Crain: Programming Majordomo and Python / C++ guy
  *	Charles Estabooks: Programming Mentor and C/C++ Guy
  *	Test string to see if changes to the code are going into svn properly or not
  */
