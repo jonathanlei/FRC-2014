@@ -11,7 +11,7 @@
  *	Team 1740
  *	Aerial Assist Code
  *	Programming Staff:
- *	Brian Healy: Team Captain and Labview / TI84 guy
+ *	Brian Healy: Team Captain and Labview / TI89 guy
  *	Kevin Konrad: Programming Captain and Python / C++ guy
  *	Charles Estabooks: Programming Mentor and C/C++ Guy
  *	Test string to see if changes to the code are going into svn properly or not
